@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+alembic
+pydantic
+python-multipart
+tensorflow
+librosa
+numpy
+pandas
+scikit-learn
+pytubefix
+python-dotenv
