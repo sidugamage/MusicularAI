@@ -8,10 +8,10 @@ export default function Dashboard() {
     <div className="max-w-5xl mx-auto">
       {/* Header Section */}
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl text-black font-bold mb-4 bg-clip-text">
           AI Popularity Predictor
         </h1>
-        <p className="text-slate-400 text-lg">
+        <p className="text-lg">
           {user ? (
             <>Logged in as <span className="text-indigo-400 font-medium">{user.email}</span></>
           ) : (
@@ -21,7 +21,7 @@ export default function Dashboard() {
       </div>
 
       {/* The prediction tool */}
-      <div className="bg-slate-800/30 p-1 rounded-2xl">
+      <div className="p-1 rounded-2xl">
         <PredictionTool />
       </div>
       

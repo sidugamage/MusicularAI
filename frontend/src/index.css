@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-900 text-white font-sans antialiased;
+  @apply bg-slate-900 font-sans antialiased;
 }
