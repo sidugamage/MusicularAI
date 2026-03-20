@@ -95,8 +95,8 @@ export default function PredictionTool() {
         <form onSubmit={handlePredict} className="space-y-6">
           
           {/* MODEL DROPDOWN */}
-          <div className="bg-gray-200 p-4 border border-slate-700">
-            <label className="flex items-center text-black gap-2 text-sm font-medium mb-2">
+          <div className="bg-black p-4 border border-slate-700">
+            <label className="flex items-center text-white gap-2 text-sm font-medium mb-2">
               <BrainCircuit className="w-4 h-4"/> Select AI Architecture
             </label>
             <div className="relative">
@@ -112,7 +112,7 @@ export default function PredictionTool() {
                 <ChevronDown className="w-4 h-4" />
               </div>
             </div>
-            <p className="text-xs text-slate-500 mt-2">
+            <p className="text-xs text-gray-400 mt-2">
               *XGBoost uses advanced time-decay analysis for better viral prediction.
             </p>
           </div>
@@ -122,7 +122,7 @@ export default function PredictionTool() {
               <label className="block text-sm font-medium mb-2">Paste YouTube Video Link</label>
               <input 
                 type="url" required placeholder="https://youtube.com/watch?v=..." 
-                className="w-full border border-black bg-gray-200 p-3 
+                className="w-full border-2 border-black p-3 
                 focus:ring-2 focus:ring-black outline-none"
                 value={url} onChange={(e) => setUrl(e.target.value)}
               />
@@ -133,7 +133,7 @@ export default function PredictionTool() {
                 <label className="block text-sm font-medium mb-2">Upload MP3 File</label>
                 <input 
                   type="file" required accept=".mp3,.wav"
-                  className="w-full border border-black p-2 file:border file:border-black transition-all 
+                  className="w-full border-2 border-black p-2 file:border file:border-black transition-all 
                   file:mr-4 file:py-2 file:px-4 file:border-0 
                   file:text-sm file:font-semibold file:bg-black file:text-white 
                   hover:file:text-black hover:file:bg-white"
@@ -143,13 +143,13 @@ export default function PredictionTool() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs uppercase font-bold mb-1">Subscribers</label>
-                  <input type="number" required className="w-full border border-black p-2
+                  <input type="number" required className="w-full border-2 border-black p-2
                   focus:ring-1 focus:ring-black outline-none" 
                     onChange={e => setMeta({...meta, subscribers: e.target.value})} />
                 </div>
                 <div>
                   <label className="block text-xs uppercase font-bold mb-1">Total Uploads</label>
-                  <input type="number" required className="w-full border border-black p-2
+                  <input type="number" required className="w-full border-2 border-black p-2
                   focus:ring-1 focus:ring-black outline-none" 
                     onChange={e => setMeta({...meta, uploads: e.target.value})} />
                 </div>
@@ -168,30 +168,30 @@ export default function PredictionTool() {
               </div>
 
               {showAdvanced && (
-                <div className="space-y-4 p-4 border border-slate-700 animate-slide-down">
+                <div className="space-y-4 p-4 border bg-gray-950 border-black animate-slide-down">
                   <div>
-                    <label className="block text-xs uppercase font-bold mb-1">Video Title</label>
+                    <label className="block text-xs text-white uppercase font-bold mb-1">Video Title</label>
                     <input 
                       type="text" 
                       placeholder="eg: Official Music Video" 
-                      className="w-full border border-black p-2 bg-gray-200 placeholder:text-[14px] placeholder:uppercase" 
+                      className="w-full border border-black p-2 placeholder:text-[14px] placeholder:uppercase" 
                       onChange={e => setMeta({...meta, title: e.target.value})} 
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase font-bold mb-1">Description</label>
+                    <label className="block text-white text-xs uppercase font-bold mb-1">Description</label>
                     <textarea 
                       placeholder="Description..." 
-                      className="w-full border border-black p-2 bg-gray-200 h-20 placeholder:text-[14px]" 
+                      className="w-full border border-black p-2 h-20 placeholder:text-[14px]" 
                       onChange={e => setMeta({...meta, description: e.target.value})} 
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase font-bold mb-1">Tags</label>
+                    <label className="block text-white text-xs uppercase font-bold mb-1">Tags</label>
                     <input 
                       type="text" 
                       placeholder="pop, rock, sad" 
-                      className="w-full border border-black p-2 bg-gray-200 placeholder:text-[14px]" 
+                      className="w-full border border-black p-2 placeholder:text-[14px]" 
                       onChange={e => setMeta({...meta, tags: e.target.value})} 
                     />
                   </div>

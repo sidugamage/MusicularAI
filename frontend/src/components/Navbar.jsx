@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     <nav className="bg-black p-2 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-2 text-xl font-bold text-white hover:text-indigo-400 transition-colors">
+        <Link to="/" className="flex items-center gap-2 text-xl font-bold text-white hover:text-gray-200 transition-colors">
           <Music className="w-8 h-8" />
           <span>Musicular AI</span>
         </Link>
