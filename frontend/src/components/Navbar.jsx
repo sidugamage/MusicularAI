@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     <nav className="bg-black p-2 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-2 text-xl font-bold text-white hover:text-gray-200 transition-colors">
+        <Link to="/" className="flex items-center pl-6 gap-2 text-xl font-bold text-white hover:text-gray-200 transition-colors">
           <Music className="w-8 h-8" />
           <span>Musicular AI</span>
         </Link>
@@ -22,17 +22,17 @@ export default function Navbar() {
         <div className="flex items-center gap-6">
           {user ? (
             <>
-              <Link to="/dashboard" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+              <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors">
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
               
-              <Link to="/history" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+              <Link to="/history" className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors">
                 <History className="w-4 h-4" /> History
               </Link>
 
               <button 
                 onClick={handleLogout}
-                className="flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors ml-4 border-l border-slate-700 pl-6"
+                className="flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors ml-4 border-l border-white pl-6 pr-6"
               >
                 <LogOut className="w-4 h-4" /> Logout
               </button>
