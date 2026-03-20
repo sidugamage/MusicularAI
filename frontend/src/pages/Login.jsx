@@ -49,10 +49,10 @@ export default function Login() {
             <div>
               <label className="block text-sm font-medium mb-1">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3 w-5 h-5 text-slate-500" />
+                <Mail className="absolute left-3 top-3 w-5 h-5" />
                 <input 
                   type="email" required
-                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 text-white focus:ring-1 focus:ring-black outline-none transition-all"
+                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 focus:ring-1 focus:ring-black outline-none transition-all"
                   placeholder="you@example.com"
                   value={email} onChange={(e) => setEmail(e.target.value)}
                 />
@@ -62,10 +62,10 @@ export default function Login() {
             <div>
               <label className="block text-sm font-medium mb-1">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 w-5 h-5 text-slate-500" />
+                <Lock className="absolute left-3 top-3 w-5 h-5" />
                 <input 
                   type="password" required
-                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 text-white focus:ring-1 focus:ring-black outline-none transition-all"
+                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 focus:ring-1 focus:ring-black outline-none transition-all"
                   placeholder="••••••••"
                   value={password} onChange={(e) => setPassword(e.target.value)}
                 />

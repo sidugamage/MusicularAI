@@ -60,7 +60,7 @@ export default function Register() {
                 <Mail className="absolute left-3 top-3 w-5 h-5 text-slate-500" />
                 <input 
                   type="email" required placeholder="you@example.com"
-                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 text-white focus:ring-1 focus:ring-black outline-none transition-all"
+                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 focus:ring-1 focus:ring-black outline-none transition-all"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                 />
@@ -74,7 +74,7 @@ export default function Register() {
                 <Lock className="absolute left-3 top-3 w-5 h-5 text-slate-500" />
                 <input 
                   type="password" required placeholder="••••••••"
-                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 text-white focus:ring-1 focus:ring-black outline-none transition-all"
+                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 focus:ring-1 focus:ring-black outline-none transition-all"
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
@@ -88,7 +88,7 @@ export default function Register() {
                 <Lock className="absolute left-3 top-3 w-5 h-5 text-slate-500" />
                 <input 
                   type="password" required placeholder="••••••••"
-                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 text-white focus:ring-1 focus:ring-black outline-none transition-all"
+                  className="w-full border-2 border-black py-2.5 pl-10 pr-4 focus:ring-1 focus:ring-black outline-none transition-all"
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
                 />

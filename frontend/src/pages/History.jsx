@@ -30,7 +30,7 @@ export default function History() {
       </h1>
 
       {history.length === 0 ? (
-        <div className="bg-black p-8 rounded-xl text-center">
+        <div className="border-4 border-black p-8 font-bold text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
           You haven't made any predictions yet.
         </div>
       ) : (
