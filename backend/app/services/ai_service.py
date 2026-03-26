@@ -240,30 +240,22 @@ class AIService:
 
 
         ydl_opts = {
-            'format': 'bestaudio/best', 
+            'format': 'bestaudio/best',
             'outtmpl': '/tmp/temp_%(id)s.%(ext)s',
-            'verbose': True,
-            'source_address': '0.0.0.0', 
             'force_ipv4': True,
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
                 'preferredquality': '192'
             }],
-            'quiet': True, 
-            'no_warnings': True,
-            'cookiefile': cookies_path if os.path.exists(cookies_path) else None,
-            'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'quiet': False,
+            'no_warnings': False,
+            'cookiefile': cookies_path,
             'nocheckcertificate': True,
-            'ignoreerrors': True,
-            'allow_unplayable_formats': True,
-            'noprogress': True,
-            'no_color': True,
             'geo_bypass': True,
-            'check_formats': False,
             'extractor_args': {
-                'youtube+GetPOT': {
-                    'pot_bgutil_script_path': '/root/bgutil-ytdlp-pot-provider/server'
+                'youtube': {
+                    'player_client': ['ios'],  # ios client bypasses PO token requirement
                 }
             }
         }

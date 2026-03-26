@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     nodejs \
     npm \
-    git \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -13,12 +12,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install bgutil-ytdlp-pot-provider
-
-# Clone and build the bgutil server scripts
-RUN git clone https://github.com/brainbotdev/bgutil-ytdlp-pot-provider.git \
-    /root/bgutil-ytdlp-pot-provider && \
-    cd /root/bgutil-ytdlp-pot-provider/server && \
-    npm install && npm run build
 
 COPY . .
 
