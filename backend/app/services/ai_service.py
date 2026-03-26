@@ -226,18 +226,35 @@ class AIService:
 
     def predict_url(self, url, db, user_id, model_type="neural_network"):
         print(f"Fetching URL: {url}")
+
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        cookies_path = os.path.join(current_dir, "../ml_assets/cookies.txt")
+
         ydl_opts = {
             'format': 'bestaudio/best',
             'outtmpl': 'temp_%(id)s.%(ext)s',
             'source_address': '0.0.0.0', 
             'force_ipv4': True,
-            'postprocessors': [{'key': 'FFmpegExtractAudio','preferredcodec': 'mp3','preferredquality': '192'}],
-            'quiet': True, 'no_warnings': True
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192'
+            }],
+            'quiet': True, 
+            'no_warnings': True,
+            'cookiefile': cookies_path if os.path.exists(cookies_path) else None,
+            'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'nocheckcertificate': True,
         }
+
+        # to check if cookies exists
+        if not os.path.exists(cookies_path):
+            print("WARNING: cookies.txt not found in ml_assets. YouTube may block this request.")
 
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=True)
+                # Ensure we get the correct .mp3 filename after post-processing
                 filename = ydl.prepare_filename(info).rsplit('.', 1)[0] + '.mp3'
                 
                 # Extract upload date
