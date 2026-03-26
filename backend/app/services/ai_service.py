@@ -226,7 +226,18 @@ class AIService:
 
     def predict_url(self, url, db, user_id, model_type="neural_network"):
         print(f"Fetching URL: {url}")
-        cookies_path = "/etc/secrets/cookies.txt"
+        
+        secret_cookies = "/etc/secrets/cookies.txt"
+        cookies_path = "/tmp/cookies.txt"
+        
+        if os.path.exists(secret_cookies):
+            import shutil
+            shutil.copy2(secret_cookies, cookies_path)
+            print("Cookies copied to /tmp/cookies.txt")
+        else:
+            cookies_path = None
+            print("WARNING: No cookies.txt found.")
+
 
         ydl_opts = {
             'format': 'bestaudio/best', 
