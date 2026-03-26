@@ -35,8 +35,8 @@ class AIService:
 
     def _save_to_history(self, db, user_id, result, meta, video_id, model_type, input_type):
         """Helper function to save prediction result to database"""
-        # dont save history for guest user (ID 1)
-        if user_id == 1:
+        # dont save history for guest users
+        if user_id is None:
             return
 
         try:

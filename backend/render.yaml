@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: musicular-backend
+    env: docker
+    plan: free
+    region: singapore # Closest to Sri Lanka
+    healthCheckPath: /api/v1/health # Add a health check endpoint in your code
+    envVars:
+      - key: DATABASE_URL
+        sync: false # Set this in the Render dashboard later
+      - key: PORT
+        value: 10000

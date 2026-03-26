@@ -16,8 +16,7 @@ def predict_by_url(
     # Check if user is logged in (Optional)
     current_user = Depends(deps.get_optional_user) 
 ):
-    # If logged in, use their ID. If not, use Guest ID (1)
-    user_id = current_user.id if current_user else 1
+    user_id = current_user.id if current_user else None
 
     return ai_service.predict_url(
         request.youtube_url, 
@@ -41,8 +40,7 @@ async def predict_by_file(
     db: Session = Depends(deps.get_db),
     current_user = Depends(deps.get_optional_user)
 ):
-    # If not logged use Guest ID
-    user_id = current_user.id if current_user else 1
+    user_id = current_user.id if current_user else None
 
     meta = {
         "subs": subscribers,
