@@ -258,13 +258,12 @@ class AIService:
                 'preferredquality': '192'
             }],
             'quiet': False,
-            'no_warnings': False,
             'cookiefile': cookies_path,
             'nocheckcertificate': True,
-            'geo_bypass': True,
             'extractor_args': {
                 'youtube': {
-                    'player_client': ['ios'],  # ios client bypasses PO token requirement
+                    'player_client': ['tv_embedded'],
+                    'player_skip': ['webpage'],
                 }
             }
         }
