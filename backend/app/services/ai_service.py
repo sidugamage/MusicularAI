@@ -242,6 +242,7 @@ class AIService:
         ydl_opts = {
             'format': 'bestaudio/best', 
             'outtmpl': '/tmp/temp_%(id)s.%(ext)s',
+            'verbose': True,
             'source_address': '0.0.0.0', 
             'force_ipv4': True,
             'postprocessors': [{
@@ -269,10 +270,13 @@ class AIService:
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=True)
-                # Ensure we get the correct .mp3 filename after post-processing
+                if info is None:
+                    raise Exception(
+                        "YouTube blocked the request — cookies may be expired or invalid."
+                    )
+
                 filename = ydl.prepare_filename(info).rsplit('.', 1)[0] + '.mp3'
                 
-                # Extract upload date
                 upload_date_str = info.get('upload_date') 
                 date_obj = None
                 if upload_date_str:
