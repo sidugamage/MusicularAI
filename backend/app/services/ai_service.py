@@ -231,7 +231,8 @@ class AIService:
         cookies_path = os.path.join(current_dir, "../ml_assets/cookies.txt")
 
         ydl_opts = {
-            'format': 'bestaudio/best',
+            # Change 1: Be more flexible with formats
+            'format': 'bestaudio/best', 
             'outtmpl': 'temp_%(id)s.%(ext)s',
             'source_address': '0.0.0.0', 
             'force_ipv4': True,
@@ -245,6 +246,9 @@ class AIService:
             'cookiefile': cookies_path if os.path.exists(cookies_path) else None,
             'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'nocheckcertificate': True,
+            # Change 2: Add these to handle format fallback better
+            'ignoreerrors': True,
+            'allow_unplayable_formats': True,
         }
 
         # to check if cookies exists
