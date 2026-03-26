@@ -261,6 +261,11 @@ class AIService:
             'no_color': True,
             'geo_bypass': True,
             'check_formats': False,
+            'extractor_args': {
+                'youtube+GetPOT': {
+                    'pot_bgutil_script_path': '/root/bgutil-ytdlp-pot-provider/server'
+                }
+            }
         }
 
         # to check if cookies exists
