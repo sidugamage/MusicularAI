@@ -31,15 +31,15 @@ export default function Login() {
   return (
     
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md mx-auto bg-grey border-2 border-black overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,0.8)] mt-8">
+      <div className="w-full max-w-md mx-auto bg-white border-2 border-black overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mt-8">
         
         {/* Header */}
-        <div className="bg-black p-8 text-center">
-          <div className="mx-auto bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm">
-            <Music className="w-8 h-8" />
+        <div className="bg-black p-8 text-center border-b-4 border-indigo-500">
+          <div className="mx-auto bg-indigo-500 w-14 h-14 rounded-full flex items-center justify-center mb-4">
+            <Music className="w-7 h-7 text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-white">MusicularAI</h2>
-          <p className="text-sm mt-1 text-white">Predict your song's success</p>
+          <h2 className="text-2xl font-black text-white">Musicular<span className="text-indigo-400">AI</span></h2>
+          <p className="text-sm mt-1 text-gray-400">Predict your song's viral potential</p>
         </div>
 
         {/* Form */}
@@ -72,10 +72,9 @@ export default function Login() {
               </div>
             </div>
 
-            <button 
+            <button
               disabled={loading}
-              className="w-full bg-black hover:bg-white hover:text-black text-white font-bold py-4 transition-all flex items-center justify-center gap-2 shadow-lg mt-6
-            border border-black"
+              className="w-full bg-black hover:bg-indigo-500 text-white font-bold py-4 transition-all flex items-center justify-center gap-2 mt-6 border-2 border-black disabled:opacity-60"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Sign In <ArrowRight className="w-4 h-4" /></>}
             </button>
@@ -84,8 +83,8 @@ export default function Login() {
           {/* Link to Register Page */}
           <div className="mt-6 text-center">
             <p className="text-slate-600 text-sm">
-              Don't have an account? 
-              <Link to="/register" className="text-black hover:text-gray-400 font-bold ml-1">
+              Don't have an account?{' '}
+              <Link to="/register" className="text-indigo-500 hover:text-indigo-700 font-bold ml-1">
                 Sign up
               </Link>
             </p>
