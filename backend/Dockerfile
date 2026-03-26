@@ -13,8 +13,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install yt-dlp PO Token provider for YouTube bot bypass
-RUN pip install bgutil-ytdlp-pot-provider && \
-    python -m bgutil_ytdlp_pot_provider install
+RUN pip install bgutil-ytdlp-pot-provider
 
 COPY . .
 
