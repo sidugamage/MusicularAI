@@ -8,7 +8,11 @@ import Register from './pages/Register';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  if (loading) return <div>Loading...</div>; // Wait for auth check
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center bg-zinc-100">
+      <div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
   if (!user) return <Navigate to="/login" replace />;
   return children;
 };
@@ -17,9 +21,9 @@ export default function App() {
   return (
     <AuthProvider> 
       <Router>
-        <div className="min-h-screen bg-white font-sans">
+        <div className="min-h-screen bg-zinc-100 font-sans">
           <Navbar /> 
-          <div className="container mx-auto px-4 py-8">
+          <div className="max-w-5xl mx-auto px-4 py-8">
             <Routes>
               {/* PUBLIC ROUTES */}
               <Route path="/" element={<Dashboard />} />

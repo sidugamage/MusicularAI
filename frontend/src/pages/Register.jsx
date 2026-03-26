@@ -38,15 +38,15 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md mx-auto bg-grey border-2 border-black overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,0.8)] mt-8">
+      <div className="w-full max-w-md mx-auto bg-white border-2 border-black overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mt-8">
         
         {/* Header */}
-        <div className="bg-black p-8 text-center">
-          <div className="mx-auto bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm">
-            <UserPlus className="w-8 h-8" />
+        <div className="bg-black p-8 text-center border-b-4 border-indigo-500">
+          <div className="mx-auto bg-indigo-500 w-14 h-14 rounded-full flex items-center justify-center mb-4">
+            <UserPlus className="w-7 h-7 text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-white">Join MusicalarAI</h2>
-          <p className="text-emerald-100 text-sm mt-1 text-white">Create your free account</p>
+          <h2 className="text-2xl font-black text-white">Join Musicular<span className="text-indigo-400">AI</span></h2>
+          <p className="text-sm mt-1 text-gray-400">Create your free account</p>
         </div>
 
         {/* Form */}
@@ -96,10 +96,9 @@ export default function Register() {
             </div>
 
             {/* Submit Button */}
-            <button 
+            <button
               type="submit" disabled={loading}
-              className="w-full bg-black hover:bg-white hover:text-black text-white font-bold py-4 transition-all flex items-center justify-center gap-2 shadow-lg mt-6
-            border border-black"
+              className="w-full bg-black hover:bg-indigo-500 text-white font-bold py-4 transition-all flex items-center justify-center gap-2 mt-6 border-2 border-black disabled:opacity-60"
             >
               {loading ? <Loader2 className="animate-spin w-5 h-5" /> : <>Create Account <ArrowRight className="w-5 h-5" /></>}
             </button>
@@ -108,8 +107,8 @@ export default function Register() {
           {/* Toggle Link */}
           <div className="mt-6 text-center">
             <p className="text-slate-600 text-sm">
-              Already have an account? 
-              <Link to="/login" className="text-black hover:text-gray-400 font-bold ml-1">
+              Already have an account?{' '}
+              <Link to="/login" className="text-indigo-500 hover:text-indigo-700 font-bold ml-1">
                 Log in
               </Link>
             </p>

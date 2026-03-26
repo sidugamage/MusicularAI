@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import api from '../api/axios';
-import { Calendar, Clock, BarChart3, TrendingUp, Music } from 'lucide-react';
+import api from '../api/axios'
+import { Calendar, Clock, TrendingUp, BarChart3 } from 'lucide-react';
 
 export default function History() {
   const [history, setHistory] = useState([]);
@@ -21,51 +21,63 @@ export default function History() {
     }
   };
 
-  if (loading) return <div className="text-center mt-20">Loading history...</div>;
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center mt-24 gap-3">
+      <div className="w-8 h-8 border-4 border-black border-t-indigo-500 rounded-full animate-spin" />
+      <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Loading history...</p>
+    </div>
+  );
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 flex items-center gap-3">
-        <Clock className="w-8 h-8 text-black" /> Prediction History
-      </h1>
+    <div className="max-w-5xl mx-auto">
+      <div className="flex items-center gap-3 mb-8">
+        <div className="bg-black p-2">
+          <Clock className="w-5 h-5 text-white" />
+        </div>
+        <h1 className="text-3xl font-black">Prediction History</h1>
+      </div>
 
       {history.length === 0 ? (
-        <div className="border-4 border-black p-8 font-bold text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
-          You haven't made any predictions yet.
+        <div className="bg-white border-2 border-black p-12 text-center shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+          <BarChart3 className="w-10 h-10 mx-auto mb-4 text-gray-300" />
+          <p className="font-bold text-gray-500">No predictions yet.</p>
+          <p className="text-sm text-gray-400 mt-1">Run your first prediction on the Dashboard.</p>
         </div>
       ) : (
         <div className="grid gap-4">
           {history.map((item) => (
-            <div key={item.id} className="p-6 border-4 border-black flex flex-col md:flex-row items-center justify-between hover:border-gray-400 transition-colors
-            shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
-              
-              <div className="flex-1 mb-4 md:mb-0">
-                <h3 className="text-xl font-bold mb-1">{item.title}</h3>
-                <div className="flex items-center gap-4 text-sm">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3" /> {new Date(item.created_at).toLocaleDateString()}
+            <div
+              key={item.id}
+              className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(99,102,241,1)] transition-shadow overflow-hidden"
+            >
+              {/* Title + meta */}
+              <div className="p-4 border-b-2 border-black">
+                <h3 className="text-base font-black truncate mb-1">{item.title || 'Untitled Prediction'}</h3>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="flex items-center gap-1 text-xs text-gray-500">
+                    <Calendar className="w-3 h-3" />
+                    {new Date(item.created_at).toLocaleDateString()}
                   </span>
-                  <span className="flex items-center text-white gap-1 bg-slate-700 px-2 py-0.5 text-xs uppercase">
+                  <span className="text-xs font-bold text-white bg-black px-2 py-0.5 uppercase">
                     {item.model_used.replace('_', ' ')}
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-8">
-                <div className="text-right">
-                  <p className="text-xs font-bold uppercase">Predicted Views</p>
-                  <p className="text-2xl font-bold ">{item.predicted_views.toLocaleString()}</p>
+              {/* Stats row */}
+              <div className="grid grid-cols-2 divide-x-2 divide-black">
+                <div className="p-4">
+                  <p className="text-xs font-bold uppercase text-gray-400 mb-0.5">Predicted Views</p>
+                  <p className="text-xl font-black">{item.predicted_views.toLocaleString()}</p>
                 </div>
-                
-                <div className="text-right">
-                  <p className="text-xs font-bold uppercase">Confidence</p>
-                  <div className="flex items-center gap-1 justify-end">
-                    <TrendingUp className="w-4 h-4 text-gray-500" />
-                    <p className="text-xl font-bold text-gray-500">{(item.confidence_score * 100).toFixed(0)}%</p>
+                <div className="p-4">
+                  <p className="text-xs font-bold uppercase text-gray-400 mb-0.5">Confidence</p>
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="w-4 h-4 text-indigo-500" />
+                    <p className="text-xl font-black text-indigo-500">{(item.confidence_score * 100).toFixed(0)}%</p>
                   </div>
                 </div>
               </div>
-
             </div>
           ))}
         </div>

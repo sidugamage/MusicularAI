@@ -5,26 +5,23 @@ export default function Dashboard() {
   const { user } = useAuth();
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-2xl mx-auto">
       {/* Header Section */}
-      <div className="text-center mb-10">
-        <h1 className="text-5xl text-black mb-4">
-          <span className='font-bold'>Musicular</span>AI
+      <div className="text-center mb-8 pt-4">
+        <h1 className="text-5xl font-black mb-3 tracking-tight">
+          <span className="text-black">Musicular</span>
+          <span className="text-indigo-500">AI</span>
         </h1>
-        <p className="text-lg">
+        <p className="text-base text-gray-500">
           {user ? (
-            <>Logged in as <span className="text-indigo-400 font-medium">{user.email}</span></>
+            <>Signed in as <span className="text-indigo-500 font-semibold">{user.email}</span></>
           ) : (
-            "Login to track your prediction history."
+            "Predict your music's viral potential."
           )}
         </p>
       </div>
 
-      {/* The prediction tool */}
-      <div className="p-1 rounded-2xl">
-        <PredictionTool/>
-      </div>
-      
+      <PredictionTool />
     </div>
   );
 }
