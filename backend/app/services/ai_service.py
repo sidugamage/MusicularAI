@@ -226,9 +226,7 @@ class AIService:
 
     def predict_url(self, url, db, user_id, model_type="neural_network"):
         print(f"Fetching URL: {url}")
-
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        cookies_path = os.path.join(current_dir, "../ml_assets/cookies.txt")
+        cookies_path = "/etc/secrets/cookies.txt"
 
         ydl_opts = {
             'format': 'bestaudio/best', 
