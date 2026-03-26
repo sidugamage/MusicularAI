@@ -249,6 +249,10 @@ class AIService:
             # Change 2: Add these to handle format fallback better
             'ignoreerrors': True,
             'allow_unplayable_formats': True,
+            'noprogress': True,
+            'no_color': True,
+            'geo_bypass': True,
+            'check_formats': False,
         }
 
         # to check if cookies exists
