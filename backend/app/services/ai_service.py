@@ -238,6 +238,15 @@ class AIService:
             cookies_path = None
             print("WARNING: No cookies.txt found.")
 
+        if os.path.exists(cookies_path):
+            with open(cookies_path, 'r') as f:
+                content = f.read()
+            print(f"Cookie file size: {len(content)} bytes")
+            print(f"First line: {content.splitlines()[0]}")
+            print(f"Has youtube.com entries: {'youtube.com' in content}")
+        else:
+            print("ERROR: Cookie file does not exist at", cookies_path)
+
 
         ydl_opts = {
             'format': 'bestaudio/best',
@@ -263,6 +272,7 @@ class AIService:
         # to check if cookies exists
         if not os.path.exists(cookies_path):
             print("WARNING: cookies.txt not found in ml_assets. YouTube may block this request.")
+        
 
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
