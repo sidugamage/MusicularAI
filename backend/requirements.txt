@@ -19,4 +19,3 @@ yt-dlp
 xgboost
 joblib
 dill
-yt-dlp-get-pot
