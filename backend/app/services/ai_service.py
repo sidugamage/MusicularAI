@@ -247,7 +247,6 @@ class AIService:
         else:
             print("ERROR: Cookie file does not exist at", cookies_path)
 
-
         ydl_opts = {
             'format': 'bestaudio/best',
             'outtmpl': '/tmp/temp_%(id)s.%(ext)s',
@@ -260,12 +259,6 @@ class AIService:
             'quiet': False,
             'cookiefile': cookies_path,
             'nocheckcertificate': True,
-            'extractor_args': {
-                'youtube': {
-                    'player_client': ['tv_embedded'],
-                    'player_skip': ['webpage'],
-                }
-            }
         }
 
         # to check if cookies exists
