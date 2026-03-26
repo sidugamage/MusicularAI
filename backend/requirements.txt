@@ -9,7 +9,7 @@ tensorflow-cpu
 librosa
 numpy
 pandas
-scikit-learn
+scikit-learn==1.6.1
 pytubefix
 python-dotenv
 python-jose[cryptography]
