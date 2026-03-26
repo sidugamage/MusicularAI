@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     nodejs \
     npm \
+    && ln -s /usr/bin/nodejs /usr/bin/node 2>/dev/null || true \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
