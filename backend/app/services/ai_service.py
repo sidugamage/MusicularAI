@@ -241,7 +241,7 @@ class AIService:
 
         ydl_opts = {
             'format': 'bestaudio/best', 
-            'outtmpl': 'temp_%(id)s.%(ext)s',
+            'outtmpl': '/tmp/temp_%(id)s.%(ext)s',
             'source_address': '0.0.0.0', 
             'force_ipv4': True,
             'postprocessors': [{
