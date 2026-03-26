@@ -12,9 +12,9 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-50">
+    <nav className="bg-black p-2 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-2 text-xl font-bold text-indigo-500 hover:text-indigo-400 transition-colors">
+        <Link to="/" className="flex items-center pl-6 gap-2 text-xl font-bold text-white hover:text-gray-200 transition-colors">
           <Music className="w-8 h-8" />
           <span>Musicular AI</span>
         </Link>
@@ -22,25 +22,25 @@ export default function Navbar() {
         <div className="flex items-center gap-6">
           {user ? (
             <>
-              <Link to="/dashboard" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+              <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors">
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
               
-              <Link to="/history" className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors">
+              <Link to="/history" className="flex items-center gap-2 text-white hover:text-gray-300 transition-colors">
                 <History className="w-4 h-4" /> History
               </Link>
 
               <button 
                 onClick={handleLogout}
-                className="flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors ml-4 border-l border-slate-700 pl-6"
+                className="flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors ml-4 border-l border-white pl-6 pr-6"
               >
                 <LogOut className="w-4 h-4" /> Logout
               </button>
             </>
           ) : (
             <div className="flex gap-4">
-              <Link to="/login" className="text-slate-300 hover:text-white px-4 py-2">Login</Link>
-              <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors">
+              <Link to="/login" className="text-white font-bold hover:text-black hover:bg-gray-300 px-4 py-2">Login</Link>
+              <Link to="/register" className="bg-white hover:bg-gray-600 hover:text-white font-bold px-4 py-2 transition-colors">
                 Get Started
               </Link>
             </div>

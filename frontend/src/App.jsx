@@ -17,10 +17,8 @@ export default function App() {
   return (
     <AuthProvider> 
       <Router>
-        <div className="min-h-screen bg-slate-900 text-white font-sans">
-          
+        <div className="min-h-screen bg-white font-sans">
           <Navbar /> 
-
           <div className="container mx-auto px-4 py-8">
             <Routes>
               {/* PUBLIC ROUTES */}

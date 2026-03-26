@@ -22,6 +22,13 @@ export default function PredictionTool() {
     tags: ''
   });
 
+  const audioFeatures = [
+    { label: 'Tempo', icon: Activity, key: 'Tempo', unit: 'BPM', isRound: true },
+    { label: 'Energy', icon: Zap, key: 'RMSE_Mean', isFixed: 3 },
+    { label: 'Pitch', icon: Music2, key: 'Spectral_Centroid_Mean', unit: 'Hz', isRound: true },
+    { label: 'Noise', icon: BarChart3, key: 'ZCR_Mean', isFixed: 3 },
+  ];
+
   const handlePredict = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -53,30 +60,31 @@ export default function PredictionTool() {
       }
       
       setResult(response.data);
+      console.log("Prediction Result:", result);
       toast.success("Prediction Complete!");
     } catch (error) {
       console.error(error);
-      toast.error("Prediction Failed. Check console.");
+      toast.error("Prediction Failed.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden shadow-2xl mt-8">
+    <div className="w-full max-w-2xl mx-auto bg-grey border-2 border-black overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,0.8)] mt-8">
       
       {/* Tabs */}
       <div className="flex border-b border-slate-700">
         <button 
           onClick={() => { setActiveTab('url'); setResult(null); }}
-          className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${activeTab === 'url' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-700 text-slate-400'}`}
+          className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${activeTab === 'url' ? 'bg-stone-950 text-white' : 'hover:bg-black-700 text-stone-950'}`}
         >
           <Youtube className="w-5 h-5" />
           <span>YouTube Link</span>
         </button>
         <button 
           onClick={() => { setActiveTab('upload'); setResult(null); }}
-          className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${activeTab === 'upload' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-700 text-slate-400'}`}
+          className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${activeTab === 'upload' ? 'bg-stone-950 text-white' : 'hover:bg-black-700 text-stone-950'}`}
         >
           <Upload className="w-5 h-5" />
           <span>Upload Audio</span>
@@ -87,15 +95,15 @@ export default function PredictionTool() {
         <form onSubmit={handlePredict} className="space-y-6">
           
           {/* MODEL DROPDOWN */}
-          <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">
-            <label className="flex items-center gap-2 text-sm font-medium text-indigo-400 mb-2">
+          <div className="bg-black p-4 border border-slate-700">
+            <label className="flex items-center text-white gap-2 text-sm font-medium mb-2">
               <BrainCircuit className="w-4 h-4"/> Select AI Architecture
             </label>
             <div className="relative">
               <select
                 value={selectedModel}
                 onChange={(e) => setSelectedModel(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 text-white appearance-none cursor-pointer focus:ring-2 focus:ring-indigo-500 hover:border-indigo-400 transition-colors"
+                className="w-full rounded-none border border-black p-3 appearance-none cursor-pointer outline-none hover:border-stone-400 transition-colors"
               >
                 <option value="neural_network">Deep Neural Network (Standard)</option>
                 <option value="xgboost">XGBoost (High Accuracy - Recommended)</option>
@@ -104,43 +112,45 @@ export default function PredictionTool() {
                 <ChevronDown className="w-4 h-4" />
               </div>
             </div>
-            <p className="text-xs text-slate-500 mt-2">
+            <p className="text-xs text-gray-400 mt-2">
               *XGBoost uses advanced time-decay analysis for better viral prediction.
             </p>
           </div>
 
           {activeTab === 'url' ? (
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Paste YouTube Video Link</label>
+              <label className="block text-sm font-medium mb-2">Paste YouTube Video Link</label>
               <input 
                 type="url" required placeholder="https://youtube.com/watch?v=..." 
-                className="w-full bg-slate-900 border border-slate-600 rounded-lg p-3 text-white 
-                focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full border-2 border-black p-3 
+                focus:ring-2 focus:ring-black outline-none"
                 value={url} onChange={(e) => setUrl(e.target.value)}
               />
             </div>
           ) : (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Upload MP3 File</label>
+                <label className="block text-sm font-medium mb-2">Upload MP3 File</label>
                 <input 
                   type="file" required accept=".mp3,.wav"
-                  className="w-full bg-slate-900 border border-slate-600 rounded-lg p-2 
-                  text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
-                  file:text-sm file:font-semibold file:bg-indigo-600 file:text-white 
-                  hover:file:bg-indigo-700"
+                  className="w-full border-2 border-black p-2 file:border file:border-black transition-all 
+                  file:mr-4 file:py-2 file:px-4 file:border-0 
+                  file:text-sm file:font-semibold file:bg-black file:text-white 
+                  hover:file:text-black hover:file:bg-white"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs uppercase text-slate-500 mb-1">Subscribers</label>
-                  <input type="number" required className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white" 
+                  <label className="block text-xs uppercase font-bold mb-1">Subscribers</label>
+                  <input type="number" required className="w-full border-2 border-black p-2
+                  focus:ring-1 focus:ring-black outline-none" 
                     onChange={e => setMeta({...meta, subscribers: e.target.value})} />
                 </div>
                 <div>
-                  <label className="block text-xs uppercase text-slate-500 mb-1">Total Uploads</label>
-                  <input type="number" required className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white" 
+                  <label className="block text-xs uppercase font-bold mb-1">Total Uploads</label>
+                  <input type="number" required className="w-full border-2 border-black p-2
+                  focus:ring-1 focus:ring-black outline-none" 
                     onChange={e => setMeta({...meta, uploads: e.target.value})} />
                 </div>
               </div>
@@ -150,7 +160,7 @@ export default function PredictionTool() {
                 <button 
                   type="button"
                   onClick={() => setShowAdvanced(!showAdvanced)}
-                  className="flex items-center gap-2 text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
+                  className="flex items-center gap-2 text-sm font-bold hover:text-green-500 transition-colors"
                 >
                   {showAdvanced ? <ChevronUp className="w-4 h-4"/> : <Plus className="w-4 h-4"/>}
                   {showAdvanced ? "Hide Details" : "Add Title, Description & Tags"}
@@ -158,24 +168,32 @@ export default function PredictionTool() {
               </div>
 
               {showAdvanced && (
-                <div className="space-y-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700 animate-slide-down">
+                <div className="space-y-4 p-4 border bg-gray-950 border-black animate-slide-down">
                   <div>
-                    <label className="block text-xs uppercase text-slate-500 mb-1">Video Title</label>
-                    <input type="text" placeholder="e.g. Official Music Video" 
-                      className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white"
-                      onChange={e => setMeta({...meta, title: e.target.value})} />
+                    <label className="block text-xs text-white uppercase font-bold mb-1">Video Title</label>
+                    <input 
+                      type="text" 
+                      placeholder="eg: Official Music Video" 
+                      className="w-full border border-black p-2 placeholder:text-[14px] placeholder:uppercase" 
+                      onChange={e => setMeta({...meta, title: e.target.value})} 
+                    />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase text-slate-500 mb-1">Description</label>
-                    <textarea placeholder="Description..." 
-                      className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white h-20"
-                      onChange={e => setMeta({...meta, description: e.target.value})} />
+                    <label className="block text-white text-xs uppercase font-bold mb-1">Description</label>
+                    <textarea 
+                      placeholder="Description..." 
+                      className="w-full border border-black p-2 h-20 placeholder:text-[14px]" 
+                      onChange={e => setMeta({...meta, description: e.target.value})} 
+                    />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase text-slate-500 mb-1">Tags</label>
-                    <input type="text" placeholder="pop, rock, sad" 
-                      className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white"
-                      onChange={e => setMeta({...meta, tags: e.target.value})} />
+                    <label className="block text-white text-xs uppercase font-bold mb-1">Tags</label>
+                    <input 
+                      type="text" 
+                      placeholder="pop, rock, sad" 
+                      className="w-full border border-black p-2 placeholder:text-[14px]" 
+                      onChange={e => setMeta({...meta, tags: e.target.value})} 
+                    />
                   </div>
                 </div>
               )}
@@ -184,39 +202,40 @@ export default function PredictionTool() {
 
           <button 
             disabled={loading}
-            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg mt-6"
+            className="w-full bg-black hover:bg-white hover:text-black text-white font-bold py-4 transition-all flex items-center justify-center gap-2 shadow-lg mt-6
+            border border-black"
           >
             {loading ? <Loader2 className="animate-spin" /> : <>Run Prediction <ArrowRight /></>}
           </button>
         </form>
 
         {result && (
-          <div className="mt-8 bg-slate-900/50 border border-indigo-500/30 rounded-xl p-6 animate-fade-in">
+          <div className="mt-8 border border-stone-950 p-6 animate-fade-in">
             <div className="flex items-start gap-4 mb-6">
               <div className="bg-green-500/20 p-3 rounded-full">
                 <CheckCircle className="w-8 h-8 text-green-400" />
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-white mb-1">Prediction Success</h3>
+                <h3 className="text-xl font-bold mb-1">Prediction Success</h3>
                 <p className="text-sm text-slate-400 line-clamp-1">{result.title}</p>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Predicted Views</p>
-                <p className="text-3xl font-bold text-indigo-400">{result.predicted_views.toLocaleString()}</p>
+              <div className="bg-black p-4 border border-slate-700 text-white font-bold">
+                <p className="text-xs uppercase tracking-wider mb-1">Predicted Views</p>
+                <p className="text-3xl font-bold">{result.predicted_views.toLocaleString()}</p>
               </div>
-              <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Confidence</p>
-                <p className="text-3xl font-bold text-emerald-400">{(result.confidence_score * 100).toFixed(1)}%</p>
+              <div className="bg-black p-4 border border-slate-700 text-white font-bold">
+                <p className="text-xs uppercase tracking-wider mb-1">Confidence</p>
+                <p className="text-3xl font-bold">{(result.confidence_score * 100).toFixed(1)}%</p>
               </div>
             </div>
 
             <div className="mt-6">
               <button 
                 onClick={() => setShowFeatures(!showFeatures)}
-                className="w-full flex items-center justify-center gap-2 text-sm text-slate-400 hover:text-white transition-colors py-2 border-t border-slate-800"
+                className="w-full flex items-center justify-center gap-2 text-sm font-bold hover:text-gray-500 transition-colors py-2 border-t border-slate-800"
               >
                 {showFeatures ? 'Hide' : 'View'} Acoustic Analysis
                 {showFeatures ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -224,22 +243,27 @@ export default function PredictionTool() {
 
               {showFeatures && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-                  <div className="bg-slate-800/50 p-3 rounded border border-slate-700/50">
-                    <div className="flex items-center gap-2 mb-1 text-slate-400"><Activity className="w-3 h-3" /> <span className="text-xs">Tempo</span></div>
-                    <p className="text-lg font-mono text-white">{result.input_features?.Tempo ? Math.round(result.input_features.Tempo) : 'N/A'} <span className="text-xs text-slate-500 ml-1">BPM</span></p>
-                  </div>
-                  <div className="bg-slate-800/50 p-3 rounded border border-slate-700/50">
-                    <div className="flex items-center gap-2 mb-1 text-slate-400"><Zap className="w-3 h-3" /> <span className="text-xs">Energy</span></div>
-                    <p className="text-lg font-mono text-white">{result.input_features?.RMSE_Mean ? result.input_features.RMSE_Mean.toFixed(3) : 'N/A'}</p>
-                  </div>
-                  <div className="bg-slate-800/50 p-3 rounded border border-slate-700/50">
-                    <div className="flex items-center gap-2 mb-1 text-slate-400"><Music2 className="w-3 h-3" /> <span className="text-xs">Pitch</span></div>
-                    <p className="text-lg font-mono text-white">{result.input_features?.Spectral_Centroid_Mean ? Math.round(result.input_features.Spectral_Centroid_Mean) : 'N/A'} <span className="text-xs text-slate-500 ml-1">Hz</span></p>
-                  </div>
-                  <div className="bg-slate-800/50 p-3 rounded border border-slate-700/50">
-                    <div className="flex items-center gap-2 mb-1 text-slate-400"><BarChart3 className="w-3 h-3" /> <span className="text-xs">Noise</span></div>
-                    <p className="text-lg font-mono text-white">{result.input_features?.ZCR_Mean ? result.input_features.ZCR_Mean.toFixed(3) : 'N/A'}</p>
-                  </div>
+                  {audioFeatures.map((feature) => {
+                    const Icon = feature.icon;
+                    const val = result.input_features?.[feature.key];
+                    
+                    return (
+                      <div key={feature.key} className="p-3 border border-black">
+                        <div className="flex items-center gap-2 mb-1 font-bold">
+                          <Icon className="w-3 h-3" /> 
+                          <span className="text-xs">{feature.label}</span>
+                        </div>
+                        <p className="text-lg font-bold">
+                          {val !== undefined ? (
+                            <>
+                              {feature.isRound ? Math.round(val) : val.toFixed(feature.isFixed || 0)}
+                              {feature.unit && <span className="text-xs text-slate-500 ml-1">{feature.unit}</span>}
+                            </>
+                          ) : 'N/A'}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
