@@ -113,15 +113,12 @@ export default function PredictionTool() {
                 className="w-full border-2 border-black p-3 appearance-none cursor-pointer outline-none bg-white hover:border-indigo-500 transition-colors font-medium text-sm"
               >
                 <option value="neural_network">Deep Neural Network (Standard)</option>
-                <option value="xgboost">XGBoost (High Accuracy — Recommended)</option>
+                <option value="gbm">GBM (High Accuracy)</option>
               </select>
               <div className="absolute right-3 top-3.5 pointer-events-none">
                 <ChevronDown className="w-4 h-4 text-gray-500" />
               </div>
             </div>
-            <p className="text-xs text-gray-400 mt-2">
-              XGBoost uses advanced time-decay analysis for better viral prediction.
-            </p>
           </div>
 
           {activeTab === 'url' ? (
