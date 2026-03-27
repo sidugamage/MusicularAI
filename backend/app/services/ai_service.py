@@ -35,8 +35,8 @@ class AIService:
 
     def _save_to_history(self, db, user_id, result, meta, video_id, model_type, input_type):
         """Helper function to save prediction result to database"""
-        # dont save history for guest users
-        if user_id is None:
+        # dont save history for guest user (ID 1)
+        if user_id == 1:
             return
 
         try:
@@ -226,56 +226,21 @@ class AIService:
 
     def predict_url(self, url, db, user_id, model_type="neural_network"):
         print(f"Fetching URL: {url}")
-        
-        secret_cookies = "/etc/secrets/cookies.txt"
-        cookies_path = "/tmp/cookies.txt"
-        
-        if os.path.exists(secret_cookies):
-            import shutil
-            shutil.copy2(secret_cookies, cookies_path)
-            print("Cookies copied to /tmp/cookies.txt")
-        else:
-            cookies_path = None
-            print("WARNING: No cookies.txt found.")
-
-        if os.path.exists(cookies_path):
-            with open(cookies_path, 'r') as f:
-                content = f.read()
-            print(f"Cookie file size: {len(content)} bytes")
-            print(f"First line: {content.splitlines()[0]}")
-            print(f"Has youtube.com entries: {'youtube.com' in content}")
-        else:
-            print("ERROR: Cookie file does not exist at", cookies_path)
-
         ydl_opts = {
             'format': 'bestaudio/best',
-            'outtmpl': '/tmp/temp_%(id)s.%(ext)s',
+            'outtmpl': 'temp_%(id)s.%(ext)s',
+            'source_address': '0.0.0.0', 
             'force_ipv4': True,
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192'
-            }],
-            'quiet': False,
-            'cookiefile': cookies_path,
-            'nocheckcertificate': True,
+            'postprocessors': [{'key': 'FFmpegExtractAudio','preferredcodec': 'mp3','preferredquality': '192'}],
+            'quiet': True, 'no_warnings': True
         }
-
-        # to check if cookies exists
-        if not os.path.exists(cookies_path):
-            print("WARNING: cookies.txt not found in ml_assets. YouTube may block this request.")
-        
 
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=True)
-                if info is None:
-                    raise Exception(
-                        "YouTube blocked the request — cookies may be expired or invalid."
-                    )
-
                 filename = ydl.prepare_filename(info).rsplit('.', 1)[0] + '.mp3'
                 
+                # Extract upload date
                 upload_date_str = info.get('upload_date') 
                 date_obj = None
                 if upload_date_str:
