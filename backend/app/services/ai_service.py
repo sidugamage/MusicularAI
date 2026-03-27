@@ -45,8 +45,6 @@ class AIService:
 
         print("All AI Models & Processors Loaded Successfully.")
 
-    # ── Unchanged helpers ────────────────────────────────────────────
-
     def _save_to_history(self, db, user_id, result, meta, video_id, model_type, input_type):
         if user_id == 1:
             return
@@ -68,6 +66,35 @@ class AIService:
             print(f"Failed to save history: {e}")
             db.rollback()
 
+    def _detect_key(self, y, sr):
+        """
+        Krumhansl-Schmuckler key-finding algorithm.
+        Correlates the mean chroma vector against major and minor tonal profiles
+        for all 12 pitch classes and returns the best matching key as a string
+        e.g. 'A Minor' or 'C# Major'.
+        """
+        major_profile = np.array([6.35, 2.23, 3.48, 2.33, 4.38, 4.09,
+                                   2.52, 5.19, 2.39, 3.66, 2.29, 2.88])
+        minor_profile = np.array([6.33, 2.68, 3.52, 5.38, 2.60, 3.53,
+                                   2.54, 4.75, 3.98, 2.69, 3.34, 3.17])
+        key_names = ['C', 'C#', 'D', 'D#', 'E', 'F',
+                     'F#', 'G', 'G#', 'A', 'A#', 'B']
+        try:
+            chroma = librosa.feature.chroma_cqt(y=y, sr=sr)
+            chroma_mean = np.mean(chroma, axis=1)
+            best_key, best_corr = 'C Major', -np.inf
+            for i in range(12):
+                rotated = np.roll(chroma_mean, -i)
+                maj_corr = np.corrcoef(rotated, major_profile)[0, 1]
+                min_corr = np.corrcoef(rotated, minor_profile)[0, 1]
+                if maj_corr > best_corr:
+                    best_corr, best_key = maj_corr, f"{key_names[i]} Major"
+                if min_corr > best_corr:
+                    best_corr, best_key = min_corr, f"{key_names[i]} Minor"
+            return best_key
+        except Exception:
+            return 'Unknown'
+
     def _extract_audio_features(self, file_path):
         y, sr = librosa.load(file_path, duration=30)
         onset_env = librosa.onset.onset_strength(y=y, sr=sr)
@@ -80,13 +107,15 @@ class AIService:
         for i in range(1, 14):
             mfcc_features[f'MFCC_{i}_Mean'] = np.mean(mfccs[i - 1])
             mfcc_features[f'MFCC_{i}_Var'] = np.var(mfccs[i - 1])
-        return {
+        features = {
             'Tempo': tempo,
             'ZCR_Mean': np.mean(zcr), 'ZCR_Var': np.var(zcr),
             'Spectral_Centroid_Mean': np.mean(cent), 'Spectral_Centroid_Var': np.var(cent),
             'RMSE_Mean': np.mean(rmse), 'RMSE_Var': np.var(rmse),
             **mfcc_features
         }
+        audio_key = self._detect_key(y, sr)
+        return features, audio_key
 
     # ── NEW: shared age calculator ───────────────────────────────────
 
@@ -115,7 +144,7 @@ class AIService:
         try:
             print(f"Processing: {meta_data.get('title')} | Model: {model_type}")
 
-            audio_feats = self._extract_audio_features(audio_path)
+            audio_feats, audio_key = self._extract_audio_features(audio_path)
 
             # ── Shared feature prep ──────────────────────────────────
             title_len    = len(str(meta_data.get('title', '')))
@@ -197,10 +226,12 @@ class AIService:
                 "video_id": video_id,
                 "title": meta_data.get('title'),
                 "predicted_views": predicted_views,
-                "confidence_score": min(confidence, 0.98),
+                "confidence_score": min(confidence, 0.98),  # kept for DB history
+                "audio_key": audio_key,
                 "input_features": {
                     "subscriber_count": subs_count,
                     "duration": duration_val,
+                    "audio_key": audio_key,   # stored in JSON column for history
                     **clean_audio_feats
                 }
             }

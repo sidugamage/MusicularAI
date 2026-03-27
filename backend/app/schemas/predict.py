@@ -12,7 +12,7 @@ class PredictionResponse(BaseModel):
     video_id: str
     title: Optional[str] = "Unknown Title"
     predicted_views: int
-    confidence_score: float
+    audio_key: Optional[str] = None
     input_features: Optional[Dict[str, Any]] = None
 
     class Config:
