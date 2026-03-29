@@ -117,16 +117,9 @@ class AIService:
         audio_key = self._detect_key(y, sr)
         return features, audio_key
 
-    # ── NEW: shared age calculator ───────────────────────────────────
+    # shared age calculator
 
     def _compute_ages(self, upload_date):
-        """
-        Returns (video_age_days, channel_age_days).
-        Mirrors the logic used during training in Cell 1.
-        When upload_date is unknown (upload flow), defaults to 30 days.
-        Channel age always defaults to 730 days (2 years) because the
-        API doesn't expose channel creation date.
-        """
         if upload_date:
             now = (datetime.now(timezone.utc)
                    if upload_date.tzinfo else datetime.now())

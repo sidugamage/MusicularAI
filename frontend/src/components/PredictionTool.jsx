@@ -32,6 +32,29 @@ function useCountUp(target, duration = 1400) {
   return value;
 }
 
+function extractYouTubeVideoUrl(input) {
+  try {
+    const parsed = new URL(input.trim());
+    const isYouTube =
+      parsed.hostname === 'www.youtube.com' ||
+      parsed.hostname === 'youtube.com' ||
+      parsed.hostname === 'youtu.be';
+    if (!isYouTube) return null;
+
+    let videoId = null;
+    if (parsed.hostname === 'youtu.be') {
+      videoId = parsed.pathname.slice(1);
+    } else {
+      videoId = parsed.searchParams.get('v');
+    }
+
+    if (!videoId) return null;
+    return `https://www.youtube.com/watch?v=${videoId}`;
+  } catch {
+    return null;
+  }
+}
+
 export default function PredictionTool() {
   const [activeTab, setActiveTab]       = useState('url');
   const [loading, setLoading]           = useState(false);
@@ -40,7 +63,9 @@ export default function PredictionTool() {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [selectedModel, setSelectedModel] = useState('neural_network');
 
-  const [url, setUrl]   = useState('');
+  const [url, setUrl]           = useState('');
+  const [urlError, setUrlError] = useState('');
+  const [fileError, setFileError] = useState('');
   const [file, setFile] = useState(null);
   const [meta, setMeta] = useState({
     subscribers: '', uploads: '', weekday: 'Monday',
@@ -175,23 +200,54 @@ export default function PredictionTool() {
             <div>
               <label className="block section-label mb-2">YouTube Video URL</label>
               <input
-                type="url" required placeholder="https://youtube.com/watch?v=..."
-                className="input-cyber"
-                value={url} onChange={(e) => setUrl(e.target.value)}
+                type="text" required placeholder="https://youtube.com/watch?v=..."
+                className={`input-cyber ${urlError ? 'border-red-500/70' : ''}`}
+                value={url}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  setUrl(raw);
+                  if (!raw) { setUrlError(''); return; }
+                  const clean = extractYouTubeVideoUrl(raw);
+                  if (!clean) {
+                    setUrlError('Invalid URL. Please enter a valid YouTube video link.');
+                  } else {
+                    setUrl(clean);
+                    setUrlError('');
+                  }
+                }}
               />
+              {urlError && (
+                <p className="mt-1.5 text-xs text-red-400">{urlError}</p>
+              )}
             </div>
           ) : (
             <div className="space-y-4">
               <div>
                 <label className="block section-label mb-2">Upload Audio File</label>
                 <input
-                  type="file" required accept=".mp3,.wav"
-                  className="w-full bg-slate-900/70 border border-slate-600/50 text-slate-300 p-2 text-sm
+                  type="file" required accept=".mp3,.wav,audio/mpeg,audio/wav"
+                  className={`w-full bg-slate-900/70 border p-2 text-sm text-slate-300
                     file:mr-4 file:py-2 file:px-4 file:border-0 file:border-r file:border-slate-600/50
                     file:text-sm file:font-bold file:bg-slate-800 file:text-cyan-400
-                    hover:file:bg-cyan-500/15 hover:file:text-cyan-300 file:transition-colors file:cursor-pointer"
-                  onChange={(e) => setFile(e.target.files[0])}
+                    hover:file:bg-cyan-500/15 hover:file:text-cyan-300 file:transition-colors file:cursor-pointer
+                    ${fileError ? 'border-red-500/70' : 'border-slate-600/50'}`}
+                  onChange={(e) => {
+                    const selected = e.target.files[0];
+                    if (!selected) { setFile(null); setFileError(''); return; }
+                    const ext = selected.name.split('.').pop().toLowerCase();
+                    if (ext !== 'mp3' && ext !== 'wav') {
+                      setFile(null);
+                      setFileError('Invalid file type. Only .mp3 and .wav files are accepted.');
+                      e.target.value = '';
+                    } else {
+                      setFile(selected);
+                      setFileError('');
+                    }
+                  }}
                 />
+                {fileError && (
+                  <p className="mt-1.5 text-xs text-red-400">{fileError}</p>
+                )}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//e/Uni/L6/FYP/MusicularAI/**)"
+    ],
+    "additionalDirectories": [
+      "e:\\Uni\\L6\\FYP\\MusicularAI\\frontend\\src\\components"
+    ]
+  }
+}
