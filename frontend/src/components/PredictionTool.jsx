@@ -7,7 +7,6 @@ import {
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 
-/* Animate a number from 0 → target over `duration` ms with ease-out */
 function useCountUp(target, duration = 1400) {
   const [value, setValue] = useState(0);
   const rafRef = useRef(null);
@@ -20,7 +19,7 @@ function useCountUp(target, duration = 1400) {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+      const eased = 1 - Math.pow(1 - progress, 3);
       setValue(Math.floor(target * eased));
       if (progress < 1) rafRef.current = requestAnimationFrame(step);
     };
@@ -127,12 +126,9 @@ export default function PredictionTool() {
       className="w-full bg-slate-900/70 backdrop-blur-sm border border-slate-700/60 overflow-hidden mt-8 bracket-corner relative"
       style={{ boxShadow: '0 0 40px rgba(6, 182, 212, 0.06), 0 4px 30px rgba(0,0,0,0.5)' }}
     >
-      {/* Scan-line overlay */}
       <div className="scanline" />
 
-      {/* ── Terminal title bar ── */}
       <div className="flex items-center gap-3 px-4 py-2.5 bg-slate-950/70 border-b border-slate-800/80">
-        {/* macOS-style dots */}
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
           <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
@@ -150,7 +146,7 @@ export default function PredictionTool() {
         </div>
       </div>
 
-      {/* ── Tabs ── */}
+      {/* Tabs */}
       <div className="flex border-b border-slate-700/60">
         {[
           { id: 'url',    icon: Video, label: 'YouTube Link' },
@@ -175,7 +171,7 @@ export default function PredictionTool() {
       <div className="p-8">
         <form onSubmit={handlePredict} className="space-y-6">
 
-          {/* ── Model selector ── */}
+          {/* Model selector */}
           <div className="bg-slate-800/40 border border-slate-700/50 p-4">
             <label className="flex items-center gap-2 section-label mb-3">
               <BrainCircuit className="w-4 h-4 text-cyan-500" /> AI Architecture
@@ -195,7 +191,7 @@ export default function PredictionTool() {
             </div>
           </div>
 
-          {/* ── Input area ── */}
+          {/* Input area */}
           {activeTab === 'url' ? (
             <div>
               <label className="block section-label mb-2">YouTube Video URL</label>
@@ -295,7 +291,7 @@ export default function PredictionTool() {
             </div>
           )}
 
-          {/* ── Submit ── */}
+          {/* Submit */}
           <button
             disabled={loading}
             className="btn-cyber-primary w-full py-4 flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
@@ -316,13 +312,13 @@ export default function PredictionTool() {
           </button>
         </form>
 
-        {/* ── Result panel ── */}
+        {/* Result panel */}
         {result && (
           <div
             className="mt-8 bg-slate-800/40 border border-slate-700/50 p-6 reveal relative overflow-hidden"
             style={{ boxShadow: 'inset 0 0 30px rgba(6, 182, 212, 0.03)' }}
           >
-            {/* Inner scan line on result */}
+            {/* result scan line */}
             <div className="scanline" />
 
             {/* Header */}
@@ -343,7 +339,6 @@ export default function PredictionTool() {
 
             {/* Key metrics */}
             <div className="grid grid-cols-2 gap-4 mb-4">
-              {/* Views */}
               <div className="stat-card-cyan">
                 <p className="section-label mb-1">Predicted Views</p>
                 <p
@@ -354,7 +349,6 @@ export default function PredictionTool() {
                 </p>
               </div>
 
-              {/* Audio Key */}
               <div className="stat-card-purple flex flex-col justify-between">
                 <p className="section-label mb-2">Musical Key</p>
                 {audioKey ? (

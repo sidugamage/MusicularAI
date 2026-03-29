@@ -130,8 +130,7 @@ class AIService:
         channel_age = 730           # fallback: 2 years
         return video_age, channel_age
 
-    # ── Core prediction ──────────────────────────────────────────────
-
+    # core prediction
     def predict_from_features(self, audio_path, meta_data,
                               video_id="unknown", model_type="neural_network"):
         try:
@@ -139,7 +138,7 @@ class AIService:
 
             audio_feats, audio_key = self._extract_audio_features(audio_path)
 
-            # ── Shared feature prep ──────────────────────────────────
+            # shared feature prep
             title_len    = len(str(meta_data.get('title', '')))
             desc_len     = len(str(meta_data.get('description', '')))
             tags         = meta_data.get('tags', [])
@@ -150,19 +149,8 @@ class AIService:
             duration_val = float(meta_data.get('duration') or 0)
             video_age, channel_age = self._compute_ages(meta_data.get('upload_date'))
 
-            # ── GBM path ─────────────────────────────────────────────
+            # gbm path
             if model_type == "gbm":
-                # GBM Meta-Only was trained on raw (unscaled) numeric columns.
-                # Column order must exactly match meta_cols in Cell 3:
-                # meta_num_cols + ['Weekday_Enc']
-                #   'Subscribers Count', 'Number of Uploads', 'Duration (seconds)',
-                #   'Title_Length', 'Desc_Length', 'Tag_Count',
-                #   'Video_Age_Days', 'Channel_Age_Days', 'Channel_Avg_Views',
-                #   'Licensed Content', 'Weekday_Enc'
-                #
-                # Channel_Avg_Views is a LOO-encoded feature computed from the
-                # training set. For inference we don't have it, so we use 0.0
-                # (the log1p of the global mean becomes the neutral fallback).
 
                 df_gbm = pd.DataFrame([{
                     'Subscribers Count':  subs_count,
@@ -182,11 +170,8 @@ class AIService:
                 log_pred = self.gbm_model.predict(df_gbm)[0]
                 predicted_views = int(np.expm1(log_pred))
 
-            # ── DNN path ─────────────────────────────────────────────
+            # dnn path
             else:
-                # New preprocessor (Cell 1) expects these extra columns:
-                # Video_Age_Days, Channel_Age_Days, Channel_Avg_Views
-                # Licensed Content must be int (0/1), Weekday stays as string.
 
                 df_meta = pd.DataFrame([{
                     'Subscribers Count':  subs_count,
@@ -238,8 +223,6 @@ class AIService:
                     os.remove(audio_path)
                 except:
                     pass
-
-    # ── Upload & URL endpoints (unchanged logic, just pass-through) ──
 
     async def predict_upload(self, file, meta, db, user_id, model_type="neural_network"):
         file_path = f"temp_{file.filename}"

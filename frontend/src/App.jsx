@@ -23,9 +23,8 @@ export default function App() {
       <Router>
         <div className="min-h-screen bg-void font-sans relative overflow-x-hidden">
 
-          {/* ── Ambient background orbs ── */}
           <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-            {/* Primary cyan orb – top-left */}
+
             <div
               className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-[0.07]"
               style={{
@@ -33,7 +32,6 @@ export default function App() {
                 animation: 'orbFloat 14s ease-in-out infinite',
               }}
             />
-            {/* Violet orb – bottom-right */}
             <div
               className="absolute -bottom-32 -right-32 w-[600px] h-[600px] rounded-full opacity-[0.07]"
               style={{
@@ -41,7 +39,6 @@ export default function App() {
                 animation: 'orbFloat2 18s ease-in-out infinite',
               }}
             />
-            {/* Subtle mid orb */}
             <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-[0.03]"
               style={{
@@ -51,18 +48,17 @@ export default function App() {
             />
           </div>
 
-          {/* ── App content ── */}
           <div className="relative z-10">
             <Navbar />
             <div className="max-w-5xl mx-auto px-4 py-8">
               <Routes>
-                {/* PUBLIC ROUTES */}
+                {/* Public routes */}
                 <Route path="/"          element={<Dashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/login"     element={<Login />} />
                 <Route path="/register"  element={<Register />} />
 
-                {/* PROTECTED ROUTES */}
+                {/* Protected routes */}
                 <Route
                   path="/history"
                   element={

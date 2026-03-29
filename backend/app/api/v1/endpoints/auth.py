@@ -12,9 +12,8 @@ from app.core.config import settings
 router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# JWT Configuration
-# Uses the SECRET_KEY from config.py
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 
+# JWT token expiry in minutes
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 def create_access_token(data: dict):
     to_encode = data.copy()
@@ -23,7 +22,6 @@ def create_access_token(data: dict):
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encoded_jwt
 
-# Schemas
 class UserLogin(BaseModel):
     email: str
     password: str
@@ -46,7 +44,7 @@ def register_user(user_in: UserLogin, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    # Auto login when registered
+    # auto-login after registration
     access_token = create_access_token(data={"sub": str(new_user.id)})
     return {"access_token": access_token, "token_type": "bearer", "email": new_user.email}
 
@@ -58,7 +56,6 @@ def login_user(user_in: UserLogin, db: Session = Depends(get_db)):
     if not user or not pwd_context.verify(user_in.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
 
-    # Generate JWT
     access_token = create_access_token(data={"sub": str(user.id)})
     
     return {"access_token": access_token, "token_type": "bearer", "email": user.email}

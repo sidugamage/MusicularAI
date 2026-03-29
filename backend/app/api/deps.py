@@ -8,12 +8,11 @@ from app.db.session import SessionLocal
 from app.core.config import settings
 from app.models.user import User
 
-# Standard Scheme for protected routes
+# scheme for protected routes
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
-# Optional Scheme for public routes]
+# auto_error=False allows unauthenticated access on optional routes
 oauth2_scheme_optional = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login", auto_error=False)
-# auto_error = false allows routes to be accessed without token
 def get_db() -> Generator:
     try:
         db = SessionLocal()

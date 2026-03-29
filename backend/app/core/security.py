@@ -15,7 +15,6 @@ async def get_optional_user(
     db: Session = Depends(get_db)
 ):
     if not x_api_key:
-        return None # Guest User
-        
-    user = db.query(User).filter(User.api_key == x_api_key).first()
-    return user # Registered User
+        return None
+
+    return db.query(User).filter(User.api_key == x_api_key).first()

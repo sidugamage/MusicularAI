@@ -18,14 +18,12 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Login Function
+  // login
   const login = async (email, password) => {
     try {
       const payload = { email, password };
 
       const response = await api.post('/auth/login', payload);
-      
-      // Read access token
       const { access_token, email: userEmail } = response.data;
       
       localStorage.setItem('musicular_token', access_token);
@@ -40,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout Function
+  // logout
   const logout = () => {
     localStorage.removeItem('musicular_token');
     localStorage.removeItem('musicular_email');
